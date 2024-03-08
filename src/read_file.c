@@ -6,17 +6,8 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:20:18 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/04 14:01:18 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/08 17:25:06 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-int	file_reader(char *infile)
-{
-	int	fd;
-
-	fd = open(infile, O_RDONLY);
-	if (fd < 0)
-		ft_close(1);
-}

@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/04 14:38:43 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/08 18:11:02 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ void	ft_close(int error)
 	}
 }
 
-void	check_input(int argc, char **argv, char **env)
+void	ft_file_checker(char *file)
 {
-	(void) argv;
-	if (argc != 4)
-		ft_close(1);
-	execve(argv[1], argv + 1, env);
+	
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	check_input(argc, argv, env);
-	ft_close(0);
+	t_data	*data;
+
+	if (argc != 4)
+		ft_close(1);
+	
 }
