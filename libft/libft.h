@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:26:57 by mbico             #+#    #+#             */
-/*   Updated: 2024/01/31 18:22:30 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/09 01:48:09 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <unistd.h>
 # include "gnl/get_next_line.h"
 # include "printf/ft_printf.h"
+
+typedef enum s_bool
+{
+    ERROR = -1,
+    FALSE,
+    TRUE,
+}                t_bool;
 
 typedef struct s_list
 {

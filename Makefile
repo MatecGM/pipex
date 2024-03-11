@@ -1,11 +1,12 @@
 NAME = pipex
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+#FLAGS = -Wall -Wextra -Werror
 SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = main.c \
+		command_access.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
