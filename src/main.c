@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/11 16:26:11 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/11 16:29:55 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	main(int argc, char **argv, char **env)
 	t_data	data[1];
 
 	ft_printf("%s\n", ft_quote_delimiter("test t"));
-	//if (ft_cmd_path(data, env) || !data->cmd_path)
-	// 	ft_close(1);
+	if (ft_cmd_path(data, env) || !data->cmd_path)
+	 	ft_close(1);
 	ft_printf("%s\n", ft_quote_delimiter("test t"));
 	ft_file_open(data, argv[1], argv[4]);
 	ft_command_checker(data, argv[2], &data->cmd1);
