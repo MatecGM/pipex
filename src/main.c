@@ -6,17 +6,16 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/11 16:29:55 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/12 16:33:55 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_close(int error)
+void	ft_close(t_bool error)
 {
 	if (error)
 	{
-		ft_putstr_fd("ERROR\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -78,14 +77,20 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
 
-	ft_printf("%s\n", ft_quote_delimiter("test t"));
-	if (ft_cmd_path(data, env) || !data->cmd_path)
-	 	ft_close(1);
-	ft_printf("%s\n", ft_quote_delimiter("test t"));
-	ft_file_open(data, argv[1], argv[4]);
-	ft_command_checker(data, argv[2], &data->cmd1);
-	ft_command_checker(data, argv[3], &data->cmd2);
-	ft_printf("cmd 1 = %s et cmd 2 = %s\n", data->cmd1, data->cmd2);
+	data->error = FALSE;
 	if (argc != 5)
 	  	ft_close(1);
+	if (ft_cmd_path(data, env) || !data->cmd_path)
+		ft_close(1);
+	ft_file_open(data, argv[1], argv[4]);
+	if (data->error)
+		ft_close(1);
+	data->cmd1 = ft_split_quote(argv[2]);
+	data->cmd2 = ft_split_quote(argv[3]);
+	ft_command_checker(data, data->cmd1[0], &data->path_cmd1);
+	ft_command_checker(data, data->cmd2[0], &data->path_cmd2);
+	
+	if (data->error)
+		ft_close(1);
+	return (0);
 }

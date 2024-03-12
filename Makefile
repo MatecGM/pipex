@@ -6,7 +6,8 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 SRC = main.c \
-		command_access.c
+	command_access.c \
+	ft_split_quote.c \
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -27,7 +28,7 @@ $(NAME): $(LIBFT) $(OBJ)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling $(notdir $<)...$(NC)"
-	@$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
+	@$(CC) $(FLAGS) -g -I include -I libft -o $@ -c $<
 
 $(LIBFT):
 	@echo "$(PURPLE)Compiling LIBFT...$(NC)"

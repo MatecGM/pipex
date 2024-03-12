@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:55:04 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/11 02:22:08 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/12 15:59:42 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct s_data
 {
 	int		infile;
 	int		outfile;
-	char	*cmd1;
+	char	**cmd1;
 	char	*path_cmd1;
-	char	*cmd2;
+	char	**cmd2;
 	char	*path_cmd2;
 
 	char	**cmd_path;
@@ -36,7 +36,7 @@ typedef struct s_data
 
 
 void	ft_close(int error);
-char	*ft_quote_delimiter(char *str);
-void	ft_command_checker(t_data *data, char *command, char **adr);
+char	**ft_split_quote(char *str);
+void	ft_command_checker(t_data *data, char *cmd, char **adr);
 
 #endif
