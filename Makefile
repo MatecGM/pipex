@@ -8,6 +8,7 @@ OBJ_DIR = obj
 SRC = main.c \
 	command_access.c \
 	ft_split_quote.c \
+	read_file.c \
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

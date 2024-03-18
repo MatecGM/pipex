@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:55:04 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/12 15:59:42 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/18 17:21:25 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "libft.h"
+#include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -29,6 +30,7 @@ typedef struct s_data
 	char	*path_cmd1;
 	char	**cmd2;
 	char	*path_cmd2;
+	char	**all_cmd_path;
 
 	char	**cmd_path;
 	t_bool	error;
@@ -38,5 +40,6 @@ typedef struct s_data
 void	ft_close(int error);
 char	**ft_split_quote(char *str);
 void	ft_command_checker(t_data *data, char *cmd, char **adr);
+void	test(t_data *data, char **env, int argc, char *outfile);
 
 #endif
