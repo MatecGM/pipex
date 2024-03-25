@@ -6,22 +6,23 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/18 19:26:52 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/25 14:08:50 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_close(t_bool error)
+void	ft_close(t_bool error, t_data *data)
 {
+	ft_free_tab(data->cmd_path);
+	ft_free_tab(data->cmd1);
+	ft_free_tab(data->cmd2);
+	free(data->path_cmd1);
+	free(data->path_cmd2);
 	if (error)
-	{
 		exit(EXIT_FAILURE);
-	}
 	else
-	{
 		exit(EXIT_SUCCESS);
-	}
 }
 
 void	ft_file_open(t_data *data, char *infile, char *outfile)
@@ -50,7 +51,8 @@ int	ft_cmd_path(t_data *data, char **env)
 	char	*tmp;
 
 	line = env;
-	while (line)
+	data->cmd_path = NULL;
+	while (line && *line)
 	{
 		if (!ft_strncmp(*line, "PATH=", 5))
 		{
@@ -72,23 +74,41 @@ int	ft_cmd_path(t_data *data, char **env)
 	return (1);
 }
 
+void	ft_datainit(t_data *data, char **argv, char **env)
+{
+	data->cmd1 = NULL;
+	data->cmd2 = NULL;
+	data->path_cmd1 = NULL;
+	data->path_cmd2 = NULL;
+	data->error = FALSE;
+	if (ft_cmd_path(data, env) || !data->cmd_path)
+		ft_close(TRUE, data);
+	ft_file_open(data, argv[1], argv[4]);
+	if (data->error)
+		ft_close(data->error, data);
+	data->cmd1 = ft_split_quote(argv[2], data);
+	data->cmd2 = ft_split_quote(argv[3], data);
+	if (!data->cmd1 || !data->cmd2
+		|| ft_command_checker(data, data->cmd1[0], &data->path_cmd1, FALSE) ||
+		ft_command_checker(data, data->cmd2[0], &data->path_cmd2, TRUE))
+	{
+		ft_putstr_fd("malloc: allocation error", 2);
+		ft_close(TRUE, data);
+	}
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
 
-	data->error = FALSE;
-	if ((argc != 5) || ft_cmd_path(data, env) || !data->cmd_path)
-		ft_close(1);
-	ft_file_open(data, argv[1], argv[4]);
+	if ((argc != 5))
+	{
+		ft_putstr_fd("argv: incorrect arg number", 2);
+		return (1);
+	}
+	ft_datainit(data, argv, env);
 	if (data->error)
-		ft_close(1);
-	data->cmd1 = ft_split_quote(argv[2]);
-	data->cmd2 = ft_split_quote(argv[3]);
-	ft_command_checker(data, data->cmd1[0], &data->path_cmd1);
-	ft_command_checker(data, data->cmd2[0], &data->path_cmd2);
-	if (data->error)
-		ft_close(1);
-	test(data, env, argc, argv[4]);
-	return (0);
+		ft_close(data->error, data);
+	pipex(data, env, argv[4]);
+	ft_close(data->error, data);
 }

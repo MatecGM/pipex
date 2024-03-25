@@ -6,18 +6,18 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 18:30:55 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/12 15:05:29 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/25 10:12:35 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_freeall(char **splitted_char, int j)
+void	ft_free_tab(char **splitted_char)
 {
 	int	i;
 
 	i = 0;
-	while (i < j)
+	while (splitted_char && splitted_char[i])
 	{
 		free(splitted_char[i]);
 		i ++;
@@ -37,7 +37,7 @@ char	**ft_realloc(char **tab)
 	dst = ft_calloc(sizeof(char *), len + 2);
 	if (!dst)
 	{
-		ft_freeall(tab, len);
+		ft_free_tab(tab);
 		return (NULL);
 	}
 	i = 0;
@@ -74,7 +74,7 @@ int	ft_quote_len(char *str)
 	return (len);
 }
 
-char	*ft_word_filler(char *src, char *dst)
+char	*ft_word_filler(char *src, char *dst, t_data *data)
 {
 	t_bool	quote;
 	t_bool	single;
@@ -97,12 +97,12 @@ char	*ft_word_filler(char *src, char *dst)
 	if (!*src && quote)
 	{
 		ft_putstr_fd("Error: unclosed quote\n", 2);
-		ft_close(TRUE);
+		ft_close(TRUE, data);
 	}
 	return (src);
 }
 
-char	**ft_split_quote(char *str)
+char	**ft_split_quote(char *str, t_data *data)
 {
 	char	**cmd;
 	int		j;
@@ -117,10 +117,10 @@ char	**ft_split_quote(char *str)
 		if (!cmd)
 			return (NULL);
 		cmd[j] = ft_calloc(sizeof(char), len + 1);
-		str = ft_word_filler(str, cmd[j]);
+		str = ft_word_filler(str, cmd[j], data);
 		if (!cmd[j] || !str)
 		{
-			ft_freeall(cmd, j);	
+			ft_free_tab(cmd);	
 			return (NULL);
 		}
 		if (*str)

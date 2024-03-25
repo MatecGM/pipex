@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:55:04 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/18 17:21:25 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/25 10:13:08 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "libft.h"
-#include <sys/wait.h>
+# include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -30,16 +30,16 @@ typedef struct s_data
 	char	*path_cmd1;
 	char	**cmd2;
 	char	*path_cmd2;
-	char	**all_cmd_path;
-
+	
 	char	**cmd_path;
 	t_bool	error;
 }	t_data;
 
 
-void	ft_close(int error);
-char	**ft_split_quote(char *str);
-void	ft_command_checker(t_data *data, char *cmd, char **adr);
-void	test(t_data *data, char **env, int argc, char *outfile);
+void	ft_close(int error, t_data *data);
+char	**ft_split_quote(char *str, t_data *data);
+int		ft_command_checker(t_data *data, char *cmd, char **adr, t_bool last);
+void	pipex(t_data *data, char **env, char *outfile);
+void	ft_free_tab(char **splitted_char);
 
 #endif
