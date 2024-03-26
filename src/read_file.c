@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:20:18 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/25 14:09:49 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/26 18:21:41 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	lastcmd(t_data *data, int *fd, char **env, char *outfile)
 	int pid;
 
 	data->outfile = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	close(fd[1]);
 	pid = fork();
 	if (!pid)
 	{
@@ -59,14 +60,15 @@ int	lastcmd(t_data *data, int *fd, char **env, char *outfile)
 
 void	pipex(t_data *data, char **env, char *outfile)
 {
-	int	pid1;
-	int	pid2;
 	int	fd[2];
 
 	if (pipe(fd) == -1)
 		return ;
-	pid1 = firstcmd(data, fd, env);
-	pid2 = lastcmd(data, fd, env, outfile);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
+	firstcmd(data, fd, env);
+	lastcmd(data, fd, env, outfile);
+	wait(NULL);
+	wait(NULL);
+	close(fd[0]);
+	close(data->infile);
+	close(data->outfile);
 }

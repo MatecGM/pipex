@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 00:47:45 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/22 15:36:28 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/26 19:58:31 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_command_checker(t_data *data, char *cmd, char **adr, t_bool last)
 		else
 		{
 			*adr = path;
-			return(0);
+			return (0);
 		}
 		path_ptr ++;
 	}

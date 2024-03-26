@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:55:04 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/25 10:13:08 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/26 19:57:42 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ typedef struct s_data
 	char	*path_cmd1;
 	char	**cmd2;
 	char	*path_cmd2;
-	
 	char	**cmd_path;
 	t_bool	error;
 }	t_data;
-
 
 void	ft_close(int error, t_data *data);
 char	**ft_split_quote(char *str, t_data *data);
