@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:26:57 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/20 17:52:41 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/27 18:20:51 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 typedef enum s_bool
 {
-    ERROR = -1,
-    FALSE,
-    TRUE,
-}                t_bool;
+	ERROR = -1,
+	FALSE,
+	TRUE,
+}			t_bool;
 
 typedef struct s_list
 {
