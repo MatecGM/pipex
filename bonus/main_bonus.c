@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/27 18:22:57 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/30 15:07:58 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	ft_close(t_bool error, t_data *data)
 {
-	ft_free_tab(data->cmd_path);
+	ft_free_tab(data->path);
 	ft_free_tab(data->cmd1);
 	ft_free_tab(data->cmd2);
 	free(data->path_cmd1);
@@ -51,14 +51,14 @@ int	ft_cmd_path(t_data *data, char **env)
 	char	*tmp;
 
 	line = env;
-	data->cmd_path = NULL;
+	data->path = NULL;
 	while (line && *line)
 	{
 		if (!ft_strncmp(*line, "PATH=", 5))
 		{
-			data->cmd_path = ft_split(*line + 5, ':');
-			line = data->cmd_path;
-			while (data->cmd_path && *line)
+			data->path = ft_split(*line + 5, ':');
+			line = data->path;
+			while (data->path && *line)
 			{
 				tmp = *line;
 				*line = ft_strjoin(tmp, "/");
@@ -74,23 +74,23 @@ int	ft_cmd_path(t_data *data, char **env)
 	return (1);
 }
 
-void	ft_datainit(t_data *data, char **argv, char **env)
+void	ft_datainit(t_data *data, char **env, int argc, char **argv)
 {
 	data->cmd1 = NULL;
 	data->cmd2 = NULL;
 	data->path_cmd1 = NULL;
 	data->path_cmd2 = NULL;
+
+	data->cmd = NULL;
+	data->path_cmd = NULL;
 	data->error = FALSE;
-	if (ft_cmd_path(data, env) || !data->cmd_path)
+	if (ft_cmd_path(data, env) || !data->path)
 		ft_close(TRUE, data);
-	ft_file_open(data, argv[1], argv[4]);
+	ft_file_open(data, argv[1], argv[argc - 1]);
 	if (data->error)
 		ft_close(data->error, data);
-	data->cmd1 = ft_split_quote(argv[2], data);
-	data->cmd2 = ft_split_quote(argv[3], data);
-	if (!data->cmd1 || !data->cmd2
-		|| ft_command_checker(data, data->cmd1[0], &data->path_cmd1, FALSE)
-		|| ft_command_checker(data, data->cmd2[0], &data->path_cmd2, TRUE))
+	ft_command_splitter(data, argv, argc);
+	if (ft_commande_stocker(data, argc))
 	{
 		ft_putstr_fd("malloc: allocation error", 2);
 		ft_close(TRUE, data);
@@ -100,15 +100,27 @@ void	ft_datainit(t_data *data, char **argv, char **env)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
+	char	**tab;
+	int		i;
+	t_list	*ptr;
 
-	if ((argc != 5))
+	if ((argc < 5))
 	{
 		ft_putstr_fd("argv: incorrect arg number\n", 2);
 		return (1);
 	}
-	ft_datainit(data, argv, env);
+	ft_datainit(data, env, argc, argv);
+	i = 2;
+	ptr = data->cmd;
+	while (i < argc - 1)
+	{
+		tab = data->cmd->content;
+		ft_printf("commande %d = %s && path = %s\n", i - 1, tab[0], data->path_cmd[i - 2]);
+		data->cmd = data->cmd->next;
+		i ++;
+	}
 	if (data->error)
 		ft_close(data->error, data);
-	pipex(data, env, argv[4]);
+	ft_pipex(data, env, argv[argc - 1], argc);
 	ft_close(data->error, data);
 }

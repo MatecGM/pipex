@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_file.c                                        :+:      :+:    :+:   */
+/*   read_file_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:20:18 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/27 20:13:33 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/30 17:47:23 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	firstcmd(t_data *data, int *fd, char **env)
+int	*firstcmd(t_data *data, char **env, char *path_cmd, char **cmd)
 {
 	int	pid;
+	int	fd[2];
 
-	if (data->path_cmd1)
+	if (pipe(fd) == -1)
+		return (0);
+	pid = -1;
+	if (path_cmd)
 		pid = fork();
 	if (!pid)
 	{
@@ -25,20 +29,26 @@ int	firstcmd(t_data *data, int *fd, char **env)
 		close(fd[0]);
 		close(fd[1]);
 		close(data->infile);
-		if (!execve(data->path_cmd1, data->cmd1, env))
+		if (!execve(path_cmd, cmd, env))
 		{
-			perror(data->cmd1[0]);
+			perror(cmd[0]);
 			data->error = TRUE;
 		}
 	}
-	return (pid);
+	return (fd);
 }
 
-int	lastcmd(t_data *data, int *fd, char **env, char *outfile)
+void	lastcmd(t_data *data, int *fd, char **env, char *outfile)
 {
 	int	pid;
 
 	data->outfile = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (!execve(data->path_cmd2, data->cmd2, env))
+	{
+		perror(data->cmd2[0]);
+		data->error = TRUE;
+		return ;
+	}
 	close(fd[1]);
 	pid = fork();
 	if (!pid)
@@ -55,16 +65,25 @@ int	lastcmd(t_data *data, int *fd, char **env, char *outfile)
 			data->error = TRUE;
 		}
 	}
-	return (pid);
 }
 
-void	pipex(t_data *data, char **env, char *outfile)
+void	ft_pipex(t_data *data, char **env, char *outfile, int argc)
 {
-	int	fd[2];
+	int		fd[2];
+	int		i;
+	t_list	*ptr;
 
-	if (pipe(fd) == -1)
-		return ;
-	firstcmd(data, fd, env);
+	ptr = data->cmd;
+	i = 0;
+	while (i < argc - 3)
+	{
+		if (i == argc - 4)
+			lastcmd(data, fd, env, outfile);
+		else
+			fd = firstcmd(data, env, data->path_cmd[i], ptr->content);
+		i ++;
+		ptr = ptr->next;
+	}
 	lastcmd(data, fd, env, outfile);
 	wait(NULL);
 	wait(NULL);

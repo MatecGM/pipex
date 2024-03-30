@@ -11,7 +11,10 @@ SRC = main.c \
 	ft_split_quote.c \
 	read_file.c \
 
-BONUS_SRC = \
+BONUS_SRC = main_bonus.c \
+	command_access_bonus.c \
+	ft_split_quote_bonus.c \
+	read_file_bonus.c \
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -28,24 +31,22 @@ LIBFT = libft/libft.a
 all : $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LIBFT)
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LIBFT)
 	@echo "$(GREEN)$(NAME) compilation successful !$(NC)"
-
-bonus : $(NAME_BONUS)
-
-$(NAME_BONUS): $(LIBFT) $(BONUS_OBJ)
-	@$(CC) $(FLAGS) $(BONUS_OBJ) -o $(NAME_BONUS) $(LIBFT)
-	@echo "$(GREEN)$(NAME_BONUS) compilation successful !$(NC)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling $(notdir $<)...$(NC)"
-	@$(CC) $(FLAGS) -g -I include -I libft -o $@ -c $<
+	$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
+
+bonus : $(LIBFT) $(BONUS_OBJ)
+	$(CC) $(FLAGS) $(BONUS_OBJ) -o $(NAME) $(LIBFT)
+	@echo "$(GREEN)$(NAME) compilation successful !$(NC)"
 
 $(OBJ_DIR)/%.o: $(BONUS_DIR)/%.c 
 	@mkdir -p $(@D)
 	@echo "$(YELLOW)Compiling $(notdir $<)...$(NC)"
-	@$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
+	$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
 
 $(LIBFT):
 	@echo "$(PURPLE)Compiling LIBFT...$(NC)"

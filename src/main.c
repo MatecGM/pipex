@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/27 18:22:57 by mbico            ###   ########.fr       */
+/*   Updated: 2024/03/30 13:25:07 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ int	main(int argc, char **argv, char **env)
 	ft_datainit(data, argv, env);
 	if (data->error)
 		ft_close(data->error, data);
-	pipex(data, env, argv[4]);
+	ft_pipex(data, env, argv[4]);
 	ft_close(data->error, data);
 }
