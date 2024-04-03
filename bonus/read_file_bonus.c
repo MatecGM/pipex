@@ -6,19 +6,17 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:20:18 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/30 17:47:23 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/03 18:40:08 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-int	*firstcmd(t_data *data, char **env, char *path_cmd, char **cmd)
+void	firstcmd(t_data *data, char **env, char *path_cmd, char **cmd)
 {
 	int	pid;
 	int	fd[2];
 
-	if (pipe(fd) == -1)
-		return (0);
 	pid = -1;
 	if (path_cmd)
 		pid = fork();
@@ -35,7 +33,6 @@ int	*firstcmd(t_data *data, char **env, char *path_cmd, char **cmd)
 			data->error = TRUE;
 		}
 	}
-	return (fd);
 }
 
 void	lastcmd(t_data *data, int *fd, char **env, char *outfile)
@@ -79,8 +76,6 @@ void	ft_pipex(t_data *data, char **env, char *outfile, int argc)
 	{
 		if (i == argc - 4)
 			lastcmd(data, fd, env, outfile);
-		else
-			fd = firstcmd(data, env, data->path_cmd[i], ptr->content);
 		i ++;
 		ptr = ptr->next;
 	}

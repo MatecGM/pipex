@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/30 13:25:07 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/03 18:33:13 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	ft_file_open(t_data *data, char *infile, char *outfile)
 	{
 		perror(outfile);
 		data->error = TRUE;
+	}
+	else if (data->error)
+	{
+		data->outfile = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		close(data->outfile);
 	}
 	data->infile = open(infile, O_RDONLY);
 	if (!data->infile)
@@ -101,7 +106,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
 
-	if ((argc != 5))
+	if (argc != 5)
 	{
 		ft_putstr_fd("argv: incorrect arg number\n", 2);
 		return (1);

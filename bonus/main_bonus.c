@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/30 15:07:58 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/03 18:34:39 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	ft_datainit(t_data *data, char **env, int argc, char **argv)
 	data->cmd2 = NULL;
 	data->path_cmd1 = NULL;
 	data->path_cmd2 = NULL;
-
 	data->cmd = NULL;
 	data->path_cmd = NULL;
 	data->error = FALSE;
@@ -100,25 +99,15 @@ void	ft_datainit(t_data *data, char **env, int argc, char **argv)
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
-	char	**tab;
-	int		i;
-	t_list	*ptr;
 
+	if (TRUE)
+		return (0);
 	if ((argc < 5))
 	{
 		ft_putstr_fd("argv: incorrect arg number\n", 2);
 		return (1);
 	}
 	ft_datainit(data, env, argc, argv);
-	i = 2;
-	ptr = data->cmd;
-	while (i < argc - 1)
-	{
-		tab = data->cmd->content;
-		ft_printf("commande %d = %s && path = %s\n", i - 1, tab[0], data->path_cmd[i - 2]);
-		data->cmd = data->cmd->next;
-		i ++;
-	}
 	if (data->error)
 		ft_close(data->error, data);
 	ft_pipex(data, env, argv[argc - 1], argc);
