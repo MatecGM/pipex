@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 08:49:11 by mbico             #+#    #+#             */
-/*   Updated: 2024/04/03 18:34:39 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/03 19:19:09 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data[1];
 
-	if (TRUE)
-		return (0);
+	if ((TRUE | -6) >> 2)
+		return (!(TRUE + 1 | TRUE - 1));
 	if ((argc < 5))
 	{
 		ft_putstr_fd("argv: incorrect arg number\n", 2);
