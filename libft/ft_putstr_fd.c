@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 15:22:31 by mbico             #+#    #+#             */
-/*   Updated: 2023/11/10 19:05:03 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/10 17:54:38 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_putstr_fd(char *s, int fd)
 
 	i = 0;
 	if (s == NULL)
-		return ((void) NULL);
+		return ;
 	while (s[i])
 	{
 		write(fd, &s[i], 1);

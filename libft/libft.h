@@ -6,7 +6,7 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:26:57 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/27 18:20:51 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/10 17:27:37 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "gnl/get_next_line.h"
 # include "printf/ft_printf.h"
 
-typedef enum s_bool
+typedef enum e_bool
 {
 	ERROR = -1,
 	FALSE,

@@ -6,11 +6,21 @@
 /*   By: mbico <mbico@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 00:47:45 by mbico             #+#    #+#             */
-/*   Updated: 2024/03/26 19:58:31 by mbico            ###   ########.fr       */
+/*   Updated: 2024/04/14 19:48:00 by mbico            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	ft_justpath(char *cmd, char **adr)
+{
+	if (!(access(cmd, F_OK) || access(cmd, X_OK)))
+	{
+		*adr = ft_strdup(cmd);
+		return (1);
+	}
+	return (0);
+}
 
 int	ft_command_checker(t_data *data, char *cmd, char **adr, t_bool last)
 {
@@ -18,9 +28,9 @@ int	ft_command_checker(t_data *data, char *cmd, char **adr, t_bool last)
 	char	*path;
 
 	path_ptr = data->cmd_path;
-	if (!(access(cmd, F_OK) || access(cmd, X_OK)))
-		*adr = cmd;
-	while ((access(cmd, F_OK) || access(cmd, X_OK)) && *path_ptr)
+	if (ft_justpath(cmd, adr))
+		return (0);
+	while ((access(cmd, F_OK) || access(cmd, X_OK)) && path_ptr && *path_ptr)
 	{
 		path = ft_strjoin(*path_ptr, cmd);
 		if (!path)
@@ -34,8 +44,7 @@ int	ft_command_checker(t_data *data, char *cmd, char **adr, t_bool last)
 		}
 		path_ptr ++;
 	}
-	perror(cmd);
-	if (last)
-		data->error = TRUE;
+	if (!(!last && data->infile == -1))
+		perror(cmd);
 	return (0);
 }

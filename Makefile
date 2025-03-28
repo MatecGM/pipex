@@ -1,7 +1,7 @@
 NAME = pipex
 
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 SRC_DIR = src
 OBJ_DIR = obj
 BONUS_DIR = bonus
@@ -9,12 +9,7 @@ BONUS_DIR = bonus
 SRC = main.c \
 	command_access.c \
 	ft_split_quote.c \
-	read_file.c \
-
-BONUS_SRC = main_bonus.c \
-	command_access_bonus.c \
-	ft_split_quote_bonus.c \
-	read_file_bonus.c \
+	pipex.c \
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -39,15 +34,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "$(YELLOW)Compiling $(notdir $<)...$(NC)"
 	$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
 
-bonus : $(LIBFT) $(BONUS_OBJ)
-	$(CC) $(FLAGS) $(BONUS_OBJ) -o $(NAME) $(LIBFT)
-	@echo "$(GREEN)$(NAME) compilation successful !$(NC)"
-
-$(OBJ_DIR)/%.o: $(BONUS_DIR)/%.c 
-	@mkdir -p $(@D)
-	@echo "$(YELLOW)Compiling $(notdir $<)...$(NC)"
-	$(CC) $(FLAGS) -I include -I libft -o $@ -c $<
-
 $(LIBFT):
 	@echo "$(PURPLE)Compiling LIBFT...$(NC)"
 	@make -C libft -j -s
@@ -65,4 +51,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
